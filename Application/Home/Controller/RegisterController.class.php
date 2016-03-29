@@ -55,7 +55,7 @@ class RegisterController extends Controller {
 
                 // 若没有注册,短信验证
 
-                vendor('alidayu.TopSDK');
+                import('Org.Taobao.TopSdk');
                 date_default_timezone_set('Asia/Shanghai'); 
 
                 $c = new TopClient;
