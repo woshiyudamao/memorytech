@@ -11,10 +11,9 @@
  *
  * @author Kroaity
  */
-session_start();
-
 namespace Home\Controller;
 use Think\Controller;
+session_start();
 
 class RegisterController extends Controller {
       
@@ -56,7 +55,7 @@ class RegisterController extends Controller {
 
                 // 若没有注册,短信验证
 
-                include "TopSdk.php";
+                vendor('alidayu.TopSDK');
                 date_default_timezone_set('Asia/Shanghai'); 
 
                 $c = new TopClient;
