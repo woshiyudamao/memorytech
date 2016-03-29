@@ -31,8 +31,7 @@ class LoginController extends Controller{
      // echo $token;
       if(!empty($username) && !empty($token)) //
       {     
-          //$User = D("User"); // 实例化User对象
-          $User = M("User"); // 实例化User对象
+          $User = D("User"); // 实例化User对象
           $condition=array();
           $condition['Mobile']=$username;
           $Ret=$User->where($condition)->find();
