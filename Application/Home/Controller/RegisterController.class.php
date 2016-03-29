@@ -12,8 +12,8 @@
  * @author Kroaity
  */
 namespace Home\Controller;
-session_start();
 use Think\Controller;
+session_start();
 
 class RegisterController extends Controller {
       
