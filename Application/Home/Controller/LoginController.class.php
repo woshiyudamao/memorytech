@@ -1,24 +1,21 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Home\Controller;
 use Think\Controller;
 /**
- * Description of LoginController
- *
+ * 登陆相关
  * @author Yu
  */
 class LoginController extends Controller{
-    const USER_LOGIN_OK              =      0;
-    const USER_NOT_EXIST             =     -1;
-    const USER_TOKEN_ERR             =     -2;
-    const PARAM_ERR                  =     -100;
+    const USER_LOGIN_OK              =      0; //登陆成功
+    const USER_NOT_EXIST             =     -1; //用户不存在
+    const USER_TOKEN_ERR             =     -2; //TOKEN错误
+    const PARAM_ERR                  =     -100;//参数错误
     
+   /**
+    * 默认登陆函数
+    * GET方式提交参数 http://localhost/Login?username=手机号&token=登陆参数
+    * @return string 返回类型是json数据 err_no->错误代码 msg->消息
+    */ 
     
   public function index()
   {
