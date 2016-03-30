@@ -55,12 +55,12 @@ class RegisterController extends Controller {
 
                 // 若没有注册,短信验证
 
-                vendor('alidayu.TopSDK');
+                import('Org.Taobao.TopSdk');
                 date_default_timezone_set('Asia/Shanghai'); 
 
                 $c = new TopClient;
                 $c->appkey = '23333861';
-                $c->secretKey = ' 2e05b91861bfefba9ee84050f5363df2';
+                $c->secretKey = '2e05b91861bfefba9ee84050f5363df2';
                 $c->format = 'json';
 
                 $req = new AlibabaAliqinFcSmsNumSendRequest;
@@ -79,8 +79,8 @@ class RegisterController extends Controller {
                 
                 //请求发送
                 $resp = $c->execute($req);
-                $resp = json_decode($resp);
-                if( $resp->code==50 )
+   
+                if( isset($resp->msg) )
                 {
                     $rjson['msg']="短信发送失败";
                     $rjson['err_no']=self::TEXT_FAIL;
