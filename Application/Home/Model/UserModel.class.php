@@ -27,6 +27,8 @@ class UserModel extends Model {
        'Region', 
        'Area', 
        'LoginToken',
+       'Title',
+       'Motto',
         'IsExp',
          '_type'=>array(
              'Id'=>'int',
@@ -40,6 +42,8 @@ class UserModel extends Model {
               'Region'=>'int',
               'Area'=>'int',
              'LoginToken'=>'varchar',
+             'Title'=>'varchar',
+             'Motto'=>'varchar',
              'IsExp'=>'int'
              )
      );
