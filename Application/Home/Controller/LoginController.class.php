@@ -37,7 +37,8 @@ class LoginController extends Controller{
           {
               if(strcmp($token, $Ret['LoginToken'])==0) //匹配到TOKEN 相等
               {
-                   session("Login",true); //设置 login为真
+                   session("Login",true);       //设置 login为真
+                   session("Uid",$Ret['Id']);   //设置登录用户的ID 为之后需要Uid的操作做准备
                    $return['err_no']=  self::USER_LOGIN_OK;
                    $return['msg'] ="登陆成功";
                    //echo json_encode($return);
