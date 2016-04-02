@@ -13,7 +13,7 @@ class LoginController extends Controller{
     
    /**
     * 默认登陆函数
-    * GET方式提交参数 http://localhost/Login?username=手机号&token=登陆参数
+    * GET方式提交参数 http://localhost/Login?username=手机号&token=登陆参数&cid=客户id
     * @return string 返回类型是json数据 err_no->错误代码 msg->消息
     */ 
     
@@ -25,6 +25,7 @@ class LoginController extends Controller{
       $return=  array();    
       $username=I("get.username","",'/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/');   //手机号
       $token=I("get.token","",'/^[A-Za-z0-9]{32}$/'); //MD5类型TOKEN
+      $cid=I("get.cid");        //获取cid 个推使用 如果不设置将无法使用推送服务
      // echo $token;
       if(!empty($username) && !empty($token)) //
       {     
@@ -39,6 +40,7 @@ class LoginController extends Controller{
               {
                    session("Login",true);       //设置 login为真
                    session("Uid",$Ret['Id']);   //设置登录用户的ID 为之后需要Uid的操作做准备
+                   session("Cid",$cid);         //设置个推clientid
                    $return['err_no']=  self::USER_LOGIN_OK;
                    $return['msg'] ="登陆成功";
                    //echo json_encode($return);
