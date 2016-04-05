@@ -46,44 +46,81 @@ class HomePageController extends Controller {
      * @para Avatar url 头像链接
      * @para Title string 头像
      * @para Motto string 座右铭
+     * $para ID int 专家的ID
      */
     
     
-    public function ExpertInfo()
+    public function expertInfo()
     {
         /*
          * 实例化用户列表,取得其中的专家列表
          * 
          */
-        $LimitCity = $_GET['City'];
-        $LimitType = $_GET['Type'];
-                
-                
-        $User = M('User'); 
-        $Exp=$User->where('IsExp=1');
-        if( isset($LimitCity) ) {
-            $Exp=$Exp->where("City=$LimitCity");
+        if( IS_GET )
+        {
+            $LimitCity = $_GET['City'];
+            $LimitType = $_GET['Type'];
+
+
+            $User = M('User'); 
+            $Exp=$User->where('IsExp=1');
+            if( isset($LimitCity) ) {
+                $Exp=$Exp->where("City=$LimitCity");
+            }
+
+            if( isset($LimitType) ) {
+                $Exp=$Exp->where("Type=$LimitType");
+            }
+            $Exp=$Exp->getField('id');
+
+
+            do{
+                $insertId = array_rand($Exp);
+            }while( in_array($insertId,$this->SelectList) );
+
+            $this->SelectList[]=$insertId;
+            $Ret=$User->where("id=$insertId")->find();
+
+            $rjson['Name']=$Ret['RealName'];
+            $rjson['Avatar']=$Ret['Avatar'];
+            $rjson['Title']=$Ret['Title'];
+            $rjosn['Motto']=$Ret['Motto'];
+            $rjson['ID']=$insertId;
+
+            return json_encode($rjosn);
         }
-        
-        if( isset($LimitType) ) {
-            $Exp=$Exp->where("Type=$LimitType");
-        }
-        $Exp=$Exp->getField('id');
-        
-            
-        do{
-            $insertId = array_rand($Exp);
-        }while( in_array($insertId,$this->SelectList) );
-        
-        $this->SelectList[]=$insertId;
-        
-        $rjson['Name']=$User->where("id=$insertId")->getField('RealName');
-        $rjson['Avatar']=$User->where("id=$insertId")->getField('Avatar');
-        $rjson['Title']=$User->where("id=$insertId")->getField('Title');
-        $rjosn['Motto']=$User->where("id=$insertId")->getField('Motto');
-        
-        return json_encode($rjosn);
            
+    }
+    
+    /*
+     * 返回指定专家的信息
+     * GET方式提交参数 http://localhost/index.php/Home/HomePage/specifiedExp?id=专家编号
+     * @return string json 
+     * @para Name string 名字
+     * @para Avatar url 头像链接
+     * @para Title string 头像
+     * @para Motto string 座右铭
+    
+     */
+
+    
+    public function specifiedExp()
+    {
+        if( IS_GET )
+        {
+            $User = M('User'); 
+            $insertId=I("get.id");
+
+            $Ret=$User->where("id=$insertId")->find();
+
+            $rjson['Name']=$Ret['RealName'];
+            $rjson['Avatar']=$Ret['Avatar'];
+            $rjson['Title']=$Ret['Title'];
+            $rjosn['Motto']=$Ret['Motto'];
+            $rjson['ID']=$insertId;
+
+            return json_encode($rjosn);
+        }
     }
     
     /*
@@ -95,11 +132,11 @@ class HomePageController extends Controller {
      * 1 => 12334
      */
     
-    public function  CityList()
+    public function  cityList()
     {
         $User = M('User');
         $city = $User->getField('id,Region');
-        $city = array_unique($city);
+        $city = distinct($city);
         
         return json_encode($city);
     }
@@ -117,9 +154,11 @@ class HomePageController extends Controller {
     {
        $User = M('User');
        $type = $User->getField('id,Type');
-       $type = array_unique($type);
+       $type = distinct($type);
        
        return json_encode($type);
     }
+    
+    
     
 }
