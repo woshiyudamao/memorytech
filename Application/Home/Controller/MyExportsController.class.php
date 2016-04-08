@@ -36,9 +36,33 @@ class MyExportsController  extends Controller{
     /**
      * 收藏专家
      * GET方式提交参数 http://localhost/MyExports/add?Id=专家的ID
-     * @api
-     * @return string json 数据
      */
+    
+     /**
+        * @api {get} /MyExports/add 收藏专家
+        * @apiVersion 1.0.0
+        * @apiName add
+        * @apiParam {int} Id 专家的ID
+        * @apiSuccess {int} err_no 错误码
+        * @apiSuccess {String} msg  错误描述
+        *
+        * @apiSuccessExample 添加成功
+        *     {
+        *       "err_no":0,
+        *       "msg":"添加成功"
+        *      } 
+        *
+        * @apiError Error ID参数不正确
+        *
+        * @apiErrorExample 添加失败
+        *    {
+        *        "err_no":-1,
+        *        "msg":"添加失败"
+        *    }
+        */
+    
+    
+    
    public function add()
    {
        $exp_id=  intval(I("get.Id")); //获取Get参数 Id
@@ -59,11 +83,34 @@ class MyExportsController  extends Controller{
        echo json_encode($return,JSON_UNESCAPED_UNICODE);
    }
       /**
-     * 取消收藏专家
-     * GET方式提交参数 http://localhost/MyExports/del?Id=专家的ID
-     * @api
-     * @return string json 数据
-     */
+        * 取消收藏专家
+        * GET方式提交参数 http://localhost/MyExports/del?Id=专家的ID
+        */
+   
+       
+       /**
+        * @api {get} /MyExports/del 取消收藏专家
+        * @apiVersion 1.0.0
+        * @apiName del
+        * @apiParam {int} Id 专家的ID
+        * @apiSuccess {int} err_no 错误码
+        * @apiSuccess {String} msg  错误描述
+        *
+        * @apiSuccessExample 删除成功
+        *     {
+        *       "err_no":0,
+        *       "msg":"删除成功"
+        *      } 
+        *
+        * @apiError Error ID参数不正确
+        *
+        * @apiErrorExample 参数错误
+        *    {
+        *        "err_no":-1,
+        *        "msg":"删除失败"
+        *    }
+        */
+   
    public function del()
    {   $exp_id=  intval(I("get.Id")); //获取Get参数 Id
           if(empty($exp_id)) exit("Id为空注意大小写");
@@ -85,9 +132,41 @@ class MyExportsController  extends Controller{
       /**
      * 显示收藏的专家
      * GET方式提交参数 http://localhost/MyExports/show?Id=专家的ID
-     * @api
-     * @return string json 数据
      */
+    
+    
+       /**
+        * @api {get} /MyExports/showlist 收藏列表
+        * @apiVersion 1.0.0
+        * @apiName showlist
+        * @apiSuccess {int} err_no 错误码
+        * @apiSuccess {String} msg  错误描述
+        *
+        * @apiSuccessExample 成功列表
+        *     {
+        *       "err_no":0,
+        *       "list":
+        *           [
+        *               {"ExpertId":"1"},
+        *               {"ExpertId":"2"}
+        *           ]
+        *       }
+        *
+        * @apiError Error 获取失败
+        *
+        * @apiErrorExample 获取失败
+        *    {
+        *        "err_no":-1,
+        *        "msg":"获取失败"
+        *    }
+        */
+    
+    
+    
+    
+    
+    
+    
    public function showlist()
    {   //以后要加入分页的功能
        //毕竟不能把已收藏的专家全部发送过去 当然是当用户量大的时候

@@ -13,7 +13,6 @@
  */
 namespace Home\Controller;
 use Think\Controller;
-session_start();
 
 class RegisterController extends Controller {
       

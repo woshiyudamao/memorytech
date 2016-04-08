@@ -12,7 +12,7 @@ use Think\Model;
  *
  * @author Yu
  */
-class UserModel extends Model {
+class ConsulationModel extends Model {
    protected $tableName = 'Consulation';
    protected $tablePrefix = ''; 
    protected $fields = array(

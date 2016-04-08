@@ -17,6 +17,43 @@ class LoginController extends Controller{
     * @return string 返回类型是json数据 err_no->错误代码 msg->消息
     */ 
     
+    
+       /**
+        * @api {get} /Login 登陆
+        * @apiVersion 1.0.0
+        * @apiName Login
+        * @apiParam {String} username 手机号
+        * @apiParam {String} token 登陆参数
+        * @apiParam {String} cid 客户id，由个推获取 不设置无法使用消息推送
+        * @apiSuccess {int} err_no 错误码
+        * @apiSuccess {String} msg  错误描述
+        *
+        * @apiSuccessExample 登陆成功
+        *     {
+        *       "err_no":0,
+        *       "msg":"登陆成功"
+        *      } 
+        *
+        * @apiError Error 手机号/Token不符合规则
+        *
+        * @apiErrorExample 参数错误
+        *    {
+        *        "err_no":-100,
+        *        "msg":"参数错误"
+        *    }
+        * 
+        * @apiErrorExample TOKEN错误
+        *   {
+        *       "err_no":-2,
+        *       "msg":"TOKEN错误"
+        *   }
+        * @apiErrorExample 用户不存在
+        *   {
+        *       "err_no":-1,
+        *       "msg":"用户不存在"
+        *   }
+        */
+    
   public function index()
   {
      
@@ -49,7 +86,7 @@ class LoginController extends Controller{
               {
                   $return['err_no']=  self::USER_TOKEN_ERR;
                   $return['msg'] ="TOKEN错误";
-                  echo $Ret['LoginToken'];
+                  //echo $Ret['LoginToken'];
               }
               
               

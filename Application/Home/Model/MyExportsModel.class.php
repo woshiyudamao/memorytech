@@ -13,7 +13,7 @@ use Think\Model;
 //  `UserId` int(10) unsigned NOT NULL COMMENT '用户ID',
 //  `ExpertId` int(10) unsigned NOT NULL COMMENT '专家ID',
 //  PRIMARY KEY (`Id`)
-//) ENGINE=MyISAM DEFAULT CHARSET=gbk;
+//) ENGINE=MyISAM DEFAULT CHARSET=utf-8;
 
 class MyExportsModel extends Model{
     
