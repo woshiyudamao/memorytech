@@ -28,6 +28,13 @@ class HomePageController extends Controller {
      * 
      */
     
+    public function test()
+    {
+        $U=D('user','','mysql://memory:Jc001122@rdsy3674506w15suu3r2.mysql.rds.aliyuncs.com:3306');
+        $ret=$U->where(' RealName="于小猫" ')->find();
+        dump($ret);
+    }
+    
     public function ClearRecord()
     {
         $this->SelectList=array();
@@ -52,44 +59,44 @@ class HomePageController extends Controller {
     
     public function expertInfo()
     {
+        $this->ClearRecord();
         /*
          * 实例化用户列表,取得其中的专家列表
          * 
          */
-        if( IS_GET )
-        {
-            $LimitCity = $_GET['City'];
+            $LimitRegion = $_GET['City'];
             $LimitType = $_GET['Type'];
 
-
-            $User = M('User'); 
-            $Exp=$User->where('IsExp=1');
-            if( isset($LimitCity) ) {
-                $Exp=$Exp->where("City=$LimitCity");
+        
+            $User = D('user'); 
+          
+            if( isset($LimitRegion) ) {
+                $Exp=$Exp->where("Region=$LimitRegion");
             }
 
             if( isset($LimitType) ) {
                 $Exp=$Exp->where("Type=$LimitType");
+               
             }
-            $Exp=$Exp->getField('id');
-
-
+            $Exp=$User->where(' IsExp=1')->getField('Id',true);    
+            
+            
             do{
                 $insertId = array_rand($Exp);
-            }while( in_array($insertId,$this->SelectList) );
+                
+            }while( in_array($Exp[$insertId],$this->SelectList) );
 
+            
             $this->SelectList[]=$insertId;
-            $Ret=$User->where("id=$insertId")->find();
-
+            $Ret=$User->where("Id=$insertId")->find();
+            
             $rjson['Name']=$Ret['RealName'];
             $rjson['Avatar']=$Ret['Avatar'];
             $rjson['Title']=$Ret['Title'];
-            $rjosn['Motto']=$Ret['Motto'];
+            $rjson['Motto']=$Ret['Motto'];
             $rjson['ID']=$insertId;
 
-            return json_encode($rjosn);
-        }
-           
+            echo json_encode($rjson,JSON_UNESCAPED_UNICODE);
     }
     
     /*
@@ -108,18 +115,20 @@ class HomePageController extends Controller {
     {
         if( IS_GET )
         {
-            $User = M('User'); 
+            
+            $User = D('user'); 
             $insertId=I("get.id");
 
-            $Ret=$User->where("id=$insertId")->find();
+         
+            $Ret=$User->where("Id=$insertId")->find();
 
             $rjson['Name']=$Ret['RealName'];
             $rjson['Avatar']=$Ret['Avatar'];
             $rjson['Title']=$Ret['Title'];
-            $rjosn['Motto']=$Ret['Motto'];
+            $rjson['Motto']=$Ret['Motto'];
             $rjson['ID']=$insertId;
 
-            return json_encode($rjosn);
+            echo json_encode($rjson,JSON_UNESCAPED_UNICODE);
         }
     }
     
@@ -132,13 +141,12 @@ class HomePageController extends Controller {
      * 1 => 12334
      */
     
-    public function  cityList()
+    public function CityList()
     {
-        $User = M('User');
-        $city = $User->getField('id,Region');
-        $city = distinct($city);
+        $City=D('citylist');
+        $City = $City->getField('CityName',true);
         
-        return json_encode($city);
+        echo json_encode($City,JSON_UNESCAPED_UNICODE);
     }
     
      /*
@@ -152,11 +160,11 @@ class HomePageController extends Controller {
     
     public function TypeList()
     {
-       $User = M('User');
-       $type = $User->getField('id,Type');
-       $type = distinct($type);
+      // $type=D('typelist','','mysql://memory:Jc001122@rdsy3674506w15suu3r2.mysql.rds.aliyuncs.com:3306');
+       $type = D('typelist');
+       $type = $type->getField('TypeName',true);
        
-       return json_encode($type);
+       echo json_encode($type,JSON_UNESCAPED_UNICODE);
     }
     
     

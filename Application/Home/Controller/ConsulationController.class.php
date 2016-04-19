@@ -31,25 +31,26 @@ class ConsulationController extends Controller
 
         if(!empty($describo) && !empty($voice)) //
         {     
-            $Consult = D("Consulation"); // 实例化User对象
+            $Consult = D("consulation"); // 实例化User对象
             $condition=array();
             $condition['Describo']=$describo;
             $condition['Voice']=$voice;
+            $condition['IsComfirm']=0;
             $Consult->add($condition);
                             
             $return['err_no']=  self::CONS_ADD_OK;
             $return['msg'] ="咨询添加成功";
 
 
-      }
-      else
-      {
-           $return['err_no']=  self::PARAM_ERR;
-           $return['msg'] ="参数错误";
-          
-      }
-      //echo $return;
-      return json_encode($return,JSON_UNESCAPED_UNICODE); //不转义中文 5.4以上
+            }
+            else
+            {
+                 $return['err_no']=  self::PARAM_ERR;
+                 $return['msg'] ="参数错误";
+
+            }
+            
+            echo json_encode($return,JSON_UNESCAPED_UNICODE); //不转义中文 5.4以上
       }
     
     }
@@ -75,6 +76,7 @@ class ConsulationController extends Controller
             $condition=array();
             $condition['Describo']=$describo;
             $condition['Teltime']=$teltime;
+            $condition['IsComfirm']=0;
             $Consult->add($condition);
                             
             $return['err_no']=  self::CONS_ADD_OK;
@@ -88,7 +90,7 @@ class ConsulationController extends Controller
            $return['msg'] ="参数错误";
           
       }
-      return json_encode($return,JSON_UNESCAPED_UNICODE); //不转义中文 5.4以上
+      echo json_encode($return,JSON_UNESCAPED_UNICODE); //不转义中文 5.4以上
       }
     }
     
@@ -113,6 +115,7 @@ class ConsulationController extends Controller
             $condition=array();
             $condition['Describo']=$describo;
             $condition['SelfIntro']=$$selfintro;
+            $condition['IsComfirm']=0;
             $Consult->add($condition);
                             
             $return['err_no']=  self::CONS_ADD_OK;
@@ -126,11 +129,10 @@ class ConsulationController extends Controller
            $return['msg'] ="参数错误";
           
       }
-      return json_encode($return,JSON_UNESCAPED_UNICODE); //不转义中文 5.4以上
+      echo json_encode($return,JSON_UNESCAPED_UNICODE); //不转义中文 5.4以上
       }
     }
     
-    
-    
+  
 }
 
