@@ -13,11 +13,28 @@ class ConsulationController extends Controller
 {
     const CONS_ADD_OK              =        0; //添加成功
     const PARAM_ERR                  =     -1;//参数错误
-    /*
+   
+      /*
+     * @api {get} Voice
+     * @apiName Voice
+     * @apiGroup Consulation
      * 
-     * 语音咨询
-     * GET方式提交参数 http://localhost/index.php/Home/Consulation/Voice?describo=文字说明&voice=语音文件地址(待商榷)
-     * @return string 返回类型是json数据 err_no->错误代码 msg->消息
+     * @apiSuccess {int} err_no 错误码
+     * @apiSuccess {String} msg  错误描述
+     * 
+     * @apiSuccessExample
+     * {
+     *       "err_no":0,
+     *       "msg":"咨询添加成功"
+     * }
+     * 
+     * @apiError 参数不完整
+     * 
+     * @apiErrorExample
+     * {
+     *  "err_no":-1,
+     *  "msg":"参数错误 "
+     * }
      */
     
     public function Voice ()
@@ -55,11 +72,27 @@ class ConsulationController extends Controller
     
     }
     
-     /*
+         /*
+     * @api {get} Tel
+     * @apiName Tel
+     * @apiGroup Consulation
      * 
-     * 电话
-     * GET方式提交参数 http://localhost/index.php/Home/Tel?describo=文字说明&teltime=电话时间长度
-     * @return string 返回类型是json数据 err_no->错误代码 msg->消息
+     * @apiSuccess {int} err_no 错误码
+     * @apiSuccess {String} msg  错误描述
+     * 
+     * @apiSuccessExample
+     * {
+     *       "err_no":0,
+     *       "msg":"咨询添加成功"
+     * }
+     * 
+     * @apiError 参数不完整
+     * 
+     * @apiErrorExample
+     * {
+     *  "err_no":-1,
+     *  "msg":"参数错误 "
+     * }
      */
     
     public function Tel()  
@@ -94,11 +127,27 @@ class ConsulationController extends Controller
       }
     }
     
-     /*
+         /*
+     * @api {get} meet
+     * @apiName meet
+     * @apiGroup Consulation
      * 
-     * 见面咨询
-     * GET方式提交参数http://localhost/index.php/Home/meet?describo=文字说明&selfintro=自我介绍
-     * @return string 返回类型是json数据 err_no->错误代码 msg->消息
+     * @apiSuccess {int} err_no 错误码
+     * @apiSuccess {String} msg  错误描述
+     * 
+     * @apiSuccessExample
+     * {
+     *       "err_no":0,
+     *       "msg":"咨询添加成功"
+     * }
+     * 
+     * @apiError 参数不完整
+     * 
+     * @apiErrorExample
+     * {
+     *  "err_no":-1,
+     *  "msg":"参数错误 "
+     * }
      */
     
     public function meet()  
