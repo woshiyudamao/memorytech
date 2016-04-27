@@ -22,6 +22,7 @@ class LoginController extends Controller{
         * @api {get} /Login 登陆
         * @apiVersion 1.0.0
         * @apiName Login
+        * @apiGroup Login
         * @apiParam {String} username 手机号
         * @apiParam {String} token 登陆参数
         * @apiParam {String} cid 客户id，由个推获取 不设置无法使用消息推送

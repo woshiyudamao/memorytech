@@ -7,6 +7,7 @@
  */
 
 namespace Home\Controller;
+
 use Think\Controller;
 
 /**
@@ -15,10 +16,11 @@ use Think\Controller;
  * @author Kroaity
  */
 class HomePageController extends Controller {
+
     //put your code here
 
     private $SelectList;
-    
+
     /*
      * 清除已显示专家的记录,在类型或者是城市切换过后使用
      * 或在连续调用ExpertInfo前使用
@@ -27,105 +29,86 @@ class HomePageController extends Controller {
      * @return NULL
      * 
      */
-    
-    public function test()
-    {
-        $U=D('user','','mysql://memory:Jc001122@rdsy3674506w15suu3r2.mysql.rds.aliyuncs.com:3306');
-        $ret=$U->where(' RealName="于小猫" ')->find();
+
+    public function test() {
+        $U = D('user', '', 'mysql://memory:Jc001122@rdsy3674506w15suu3r2.mysql.rds.aliyuncs.com:3306');
+        $ret = $U->where(' RealName="于小猫" ')->find();
         dump($ret);
     }
-     /**
- -     * 清除已显示专家的记录,在类型或者是城市切换过后使用
- -     * 或在连续调用ExpertInfo前使用
- -     * 
- -     * @para NULL
- -     * @return NULL
- -     * 
- -     */
-    public function ClearRecord()
-    {
-        $this->SelectList=array();
+
+    /**
+      -     * 清除已显示专家的记录,在类型或者是城市切换过后使用
+      -     * 或在连续调用ExpertInfo前使用
+      -     *
+      -     * @para NULL
+      -     * @return NULL
+      -     *
+      - */
+    public function ClearRecord() {
+        $this->SelectList = array();
     }
-    
-     /**
-       * 
- -     * 返回主页上显示的专家的数据
- -     * 每次返回*一个*不重复的专家
- -     * 不需要参数,调用即可
- -     * GET方式提交参数 http://localhost/HomePage/ExpertInfo?City=专家的城市编号&Type=专家的类型
- -     * 无参数表示不限制
- -     * @api
- -     * @return string json 
- -     * @para Name string 名字
- -     * @para Avatar url 头像链接
- -     * @para Title string 头像
- -     * @para Motto string 座右铭
- -     * $para ID int 专家的ID
- +     * 以后要加分页的改进
- +     * 
- +     * @api {get} expertInfo 返回全部专家的信息
- +     * @apiName expertInfo
- +     * @apiGroup HomePage
- +     * 
- +     * @apiSuccess {int} err_no 错误码
- +     * @apiSuccess {String} msg  错误描述
- +     * 
- +     * @apiSuccessExample
- +     * {
- +     *       "err_no":0,
- +     *       "msg":"咨询添加成功"
- +     * }
- +     * 
- +     * @apiError 参数不完整
- +     * 
- +     * @apiErrorExample
- +     * {
- +     *  "err_no":-1,
- +     *  "msg":"参数错误 "
- +     * }
-       */
-    public function expertInfo()
-    {
+
+    /** 
+     * @api {get} /HomePage/expertInfo 返回全部专家的信息
+     * @apiName expertInfo
+     * @apiGroup HomePage
+     * 
+     * @apiSuccess {int} err_no 错误码
+     * @apiSuccess {String} msg  错误描述
+     * 
+     * @apiSuccessExample
+     * {
+     *       "err_no":0,
+     *       "msg":"咨询添加成功"
+     * }
+     * 
+     * @apiError Error 参数不完整
+     * 
+     * @apiErrorExample
+     * {
+     *  "err_no":-1,
+     *  "msg":"参数错误 "
+     * }
+     */
+    public function expertInfo() {
         $this->ClearRecord();
         /*
          * 实例化用户列表,取得其中的专家列表
          * 
          */
-            $LimitRegion = $_GET['City'];
-            $LimitType = $_GET['Type'];
+        $LimitRegion = $_GET['City'];
+        $LimitType = $_GET['Type'];
 
-        
-            $User = D('user'); 
-          
-            if( isset($LimitRegion) ) {
-                $Exp=$Exp->where("Region=$LimitRegion");
-            }
 
-            if( isset($LimitType) ) {
-                $Exp=$Exp->where("Type=$LimitType");
-               
-            }
-            $Exp=$User->where(' IsExp=1')->getField('Id',true);    
-            
-            
-            do{
-                $insertId = array_rand($Exp);
-                
-            }while( in_array($Exp[$insertId],$this->SelectList) );
+        $User = D('user');
 
-            
-            $this->SelectList[]=$insertId;
-            $Ret=$User->where("Id=$insertId")->find();
-            
-            $rjson['Name']=$Ret['RealName'];
-            $rjson['Avatar']=$Ret['Avatar'];
-            $rjson['Title']=$Ret['Title'];
-            $rjson['Motto']=$Ret['Motto'];
-            $rjson['ID']=$insertId;
+        if (isset($LimitRegion)) {
+            $Exp = $Exp->where("Region=$LimitRegion");
+        }
 
-            echo json_encode($rjson,JSON_UNESCAPED_UNICODE);
+        if (isset($LimitType)) {
+            $Exp = $Exp->where("Type=$LimitType");
+        }
+        $Exp = $User->where(' IsExp=1')->getField('Id', true);
+
+
+        do {
+            $insertId = array_rand($Exp);
+        } while (in_array($Exp[$insertId], $this->SelectList));
+
+
+        $this->SelectList[] = $insertId;
+        $Ret = $User->where("Id=$insertId")->find();
+
+        $rjson['Name'] = $Ret['RealName'];
+        $rjson['Avatar'] = $Ret['Avatar'];
+        $rjson['Title'] = $Ret['Title'];
+        $rjson['Motto'] = $Ret['Motto'];
+        $rjson['ID'] = $insertId;
+
+        echo json_encode($rjson, JSON_UNESCAPED_UNICODE);
     }
-    
+
     /*
      * 返回指定专家的信息
      * GET方式提交参数 http://localhost/index.php/Home/HomePage/specifiedExp?id=专家编号
@@ -134,31 +117,28 @@ class HomePageController extends Controller {
      * @para Avatar url 头像链接
      * @para Title string 头像
      * @para Motto string 座右铭
-    
+
      */
 
-    
-    public function specifiedExp()
-    {
-        if( IS_GET )
-        {
-            
-            $User = D('user'); 
-            $insertId=I("get.id");
+    public function specifiedExp() {
+        if (IS_GET) {
 
-         
-            $Ret=$User->where("Id=$insertId")->find();
+            $User = D('user');
+            $insertId = I("get.id");
 
-            $rjson['Name']=$Ret['RealName'];
-            $rjson['Avatar']=$Ret['Avatar'];
-            $rjson['Title']=$Ret['Title'];
-            $rjson['Motto']=$Ret['Motto'];
-            $rjson['ID']=$insertId;
 
-            echo json_encode($rjson,JSON_UNESCAPED_UNICODE);
+            $Ret = $User->where("Id=$insertId")->find();
+
+            $rjson['Name'] = $Ret['RealName'];
+            $rjson['Avatar'] = $Ret['Avatar'];
+            $rjson['Title'] = $Ret['Title'];
+            $rjson['Motto'] = $Ret['Motto'];
+            $rjson['ID'] = $insertId;
+
+            echo json_encode($rjson, JSON_UNESCAPED_UNICODE);
         }
     }
-    
+
     /*
      * 
      * 返回城市列表,已经去重,五位编号
@@ -167,16 +147,15 @@ class HomePageController extends Controller {
      * 0 => 01235
      * 1 => 12334
      */
-    
-    public function CityList()
-    {
-        $City=D('citylist');
-        $City = $City->getField('CityName',true);
-        
-        echo json_encode($City,JSON_UNESCAPED_UNICODE);
+
+    public function CityList() {
+        $City = D('citylist');
+        $City = $City->getField('CityName', true);
+
+        echo json_encode($City, JSON_UNESCAPED_UNICODE);
     }
-    
-     /*
+
+    /*
      * 
      * 返回类型列表,已经去重
      * 无输入参数
@@ -184,16 +163,13 @@ class HomePageController extends Controller {
      * 0 => 互联网
      * 1 => blablabla
      */
-    
-    public function TypeList()
-    {
-      // $type=D('typelist','','mysql://memory:Jc001122@rdsy3674506w15suu3r2.mysql.rds.aliyuncs.com:3306');
-       $type = D('typelist');
-       $type = $type->getField('TypeName',true);
-       
-       echo json_encode($type,JSON_UNESCAPED_UNICODE);
+
+    public function TypeList() {
+        // $type=D('typelist','','mysql://memory:Jc001122@rdsy3674506w15suu3r2.mysql.rds.aliyuncs.com:3306');
+        $type = D('typelist');
+        $type = $type->getField('TypeName', true);
+
+        echo json_encode($type, JSON_UNESCAPED_UNICODE);
     }
-    
-    
-    
+
 }
