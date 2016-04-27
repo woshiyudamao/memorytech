@@ -34,29 +34,56 @@ class HomePageController extends Controller {
         $ret=$U->where(' RealName="于小猫" ')->find();
         dump($ret);
     }
-    
+     /**
+ -     * 清除已显示专家的记录,在类型或者是城市切换过后使用
+ -     * 或在连续调用ExpertInfo前使用
+ -     * 
+ -     * @para NULL
+ -     * @return NULL
+ -     * 
+ -     */
     public function ClearRecord()
     {
         $this->SelectList=array();
     }
     
-    /*
-     * 
-     * 返回主页上显示的专家的数据
-     * 每次返回*一个*不重复的专家
-     * 不需要参数,调用即可
-     * GET方式提交参数 http://localhost/HomePage/ExpertInfo?City=专家的城市编号&Type=专家的类型
-     * 无参数表示不限制
-     * @api
-     * @return string json 
-     * @para Name string 名字
-     * @para Avatar url 头像链接
-     * @para Title string 头像
-     * @para Motto string 座右铭
-     * $para ID int 专家的ID
-     */
-    
-    
+     /**
+       * 
+ -     * 返回主页上显示的专家的数据
+ -     * 每次返回*一个*不重复的专家
+ -     * 不需要参数,调用即可
+ -     * GET方式提交参数 http://localhost/HomePage/ExpertInfo?City=专家的城市编号&Type=专家的类型
+ -     * 无参数表示不限制
+ -     * @api
+ -     * @return string json 
+ -     * @para Name string 名字
+ -     * @para Avatar url 头像链接
+ -     * @para Title string 头像
+ -     * @para Motto string 座右铭
+ -     * $para ID int 专家的ID
+ +     * 以后要加分页的改进
+ +     * 
+ +     * @api {get} expertInfo 返回全部专家的信息
+ +     * @apiName expertInfo
+ +     * @apiGroup HomePage
+ +     * 
+ +     * @apiSuccess {int} err_no 错误码
+ +     * @apiSuccess {String} msg  错误描述
+ +     * 
+ +     * @apiSuccessExample
+ +     * {
+ +     *       "err_no":0,
+ +     *       "msg":"咨询添加成功"
+ +     * }
+ +     * 
+ +     * @apiError 参数不完整
+ +     * 
+ +     * @apiErrorExample
+ +     * {
+ +     *  "err_no":-1,
+ +     *  "msg":"参数错误 "
+ +     * }
+       */
     public function expertInfo()
     {
         $this->ClearRecord();

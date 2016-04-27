@@ -1,5 +1,5 @@
 <?php
-return ['SHOW_PAGE_TRACE' => true,
+return [
         'DB_TYPE'               =>  'mysqli',     // 数据库类型
         'DB_HOST'               =>  'localhost', // 服务器地址
         'DB_NAME'               =>  'memory',          // 数据库名
